@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
@@ -17,6 +18,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connecti
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ITermService, TermService>();
 builder.Services.AddScoped<ITermRepo, TermRepo>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("https://localhost:7002",
+                                              "http://www.contoso.com");
+                      });
+});
 
 var app = builder.Build();
 
@@ -29,5 +40,7 @@ app.MapGet("/delete", (int id, [FromServices] ITermService service) => service.D
 app.MapGet("/list", ([FromServices] ITermService service) => service.List());
 
 app.UseSwaggerUI();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
