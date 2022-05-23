@@ -25,6 +25,7 @@ namespace CodingTermsMinimalApi.Services
             var existingTerm = _termRepo.FindById(term.Id);
             if (existingTerm == null) return null;
             existingTerm.Title = term.Title;
+            existingTerm.Keywords = term.Keywords;
             existingTerm.Description = term.Description;
             existingTerm.Modified = DateTime.Now;
             existingTerm.ModifiedBy = "system";
@@ -49,7 +50,7 @@ namespace CodingTermsMinimalApi.Services
 
         public IResult List()
         {
-            var terms = _termRepo.GetAllActiveAsQueryableNoTracking().ToList();
+            var terms = _termRepo.GetAllActiveAsQueryableNoTracking().OrderBy(x => x.Title).ToList();
             return Results.Ok(terms);
         }
     }
