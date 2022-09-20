@@ -4,7 +4,7 @@
     {
         public static string GetAllMovieRatings()
         {
-            return "SELECT * FROM MovieRating;";
+            return "SELECT * FROM MovieRating ORDER BY Title;";
         }
 
         public static string InsertMovieRatings()
