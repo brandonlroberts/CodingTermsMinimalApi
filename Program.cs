@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
         builder.WithOrigins("https://localhost:7060", "https://blroberts.azurewebsites.net")
         .AllowAnyHeader()
         .AllowAnyMethod()
-        .SetIsOriginAllowed(origin => true)
+        .AllowAnyOrigin()
         .AllowCredentials();
     });
 });
