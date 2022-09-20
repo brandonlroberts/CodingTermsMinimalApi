@@ -1,1 +1,3 @@
-dotnet ef migrations add keywords -o Dal/Migrations
+dotnet ef migrations add keywords -o Dal/Migrations 
+
+foo
