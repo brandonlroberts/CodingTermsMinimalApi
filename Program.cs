@@ -6,28 +6,22 @@ using CodingTermsMinimalApi.Services;
 using CodingTermsMinimalApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CodingTermsMinimalApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultSQLConnection");
+var connectionStringMariaDB = builder.Configuration.GetConnectionString("DefaultMariaDBConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<ITermService, TermService>();
 builder.Services.AddScoped<ITermRepo, TermRepo>();
-
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: MyAllowSpecificOrigins,
-//                      builder =>
-//                      {
-//                          builder
-//                          .WithOrigins("https://localhost:7060", "http://www.contoso.com");
-//                      });
-//});
+builder.Services.AddScoped<IMariaDBService, MariaDBService>();
 
 builder.Services.AddCors(options =>
 {
@@ -50,6 +44,12 @@ app.MapPut("/update", (Term term, [FromServices] ITermService service) => servic
 app.MapGet("/get", (int id, [FromServices] ITermService service) => service.Get(id));
 app.MapPut("/delete", (int id, [FromServices] ITermService service) => service.Delete(id));
 app.MapGet("/list", ([FromServices] ITermService service) => service.List());
+
+app.MapGet("/movies/list", ([FromServices] IMariaDBService service) 
+    => service.LoadData<MovieRating,dynamic>(QueryHelpers.GetAllMovieRatings(), new {}, connectionStringMariaDB));
+
+app.MapPost("/movies/create", ([FromBody] MovieRating movieRating, [FromServices] IMariaDBService service) 
+    => service.SaveData(QueryHelpers.InsertMovieRatings(), movieRating, connectionStringMariaDB));
 
 app.UseSwaggerUI();
 

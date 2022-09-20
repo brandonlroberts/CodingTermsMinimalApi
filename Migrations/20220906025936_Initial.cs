@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CodingTermsMinimalApi.Dal.Migrations
+namespace CodingTermsMinimalApi.Migrations
 {
     public partial class Initial : Migration
     {
@@ -21,6 +21,7 @@ namespace CodingTermsMinimalApi.Dal.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CodingTermsMinimalApi.Dal.Migrations
+namespace CodingTermsMinimalApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220520173834_Initial")]
+    [Migration("20220906025936_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace CodingTermsMinimalApi.Dal.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Keywords")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");
