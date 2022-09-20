@@ -11,7 +11,7 @@
         {
             return @"
                 INSERT INTO MovieRating (Created,CreatedBy,Modified,ModifiedBy,IsActive,Title,ReleaseDate,ImagePosterUrl,Rating) 
-VALUES          (CURDATE(),'system',CURDATE(),'system',TRUE,@Title, @ReleaseDate,@ImagePosterUrl,@Rating);
+                VALUES (CURDATE(),'system',CURDATE(),'system',TRUE,@Title, @ReleaseDate,@ImagePosterUrl,@Rating);
             ";
         }
     }
